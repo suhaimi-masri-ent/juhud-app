@@ -1,7 +1,7 @@
 export async function onRequest(context) {
   const { request, env } = context;
 
-  // Sediakan sambungan ke database D1 (kita namakan binding ini sebagai DB nanti)
+  // Sediakan sambungan ke database D1 (kita fullnamekan binding ini sebagai DB nanti)
   const db = env.DB; 
 
   // JIKA USER MINTA DATA (GET)
@@ -15,8 +15,8 @@ export async function onRequest(context) {
   // JIKA USER HANTAR DATA BARU (POST)
   if (request.method === "POST") {
     const body = await request.json();
-    await db.prepare("INSERT INTO ahbab (nama) VALUES (?)")
-              .bind(body.nama)
+    await db.prepare("INSERT INTO ahbab (fullname) VALUES (?)")
+              .bind(body.fullname)
               .run();
 
     return new Response(JSON.stringify({ status: "Berjaya ditambah!" }), {
