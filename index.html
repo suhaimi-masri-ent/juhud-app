@@ -16,7 +16,7 @@
 
     <!-- Borang Tambah Ahbab -->
     <form id="hrForm">
-        <input type="text" id="nama" placeholder="Nama Ahbab" required>
+        <input type="text" id="fullname" placeholder="fullname Ahbab" required>
         <button type="submit">Tambah Ahbab</button>
     </form>
 
@@ -33,7 +33,7 @@
             data.forEach(p => {
                 div.innerHTML += `
                     <div class="Ahbab-card">
-                        <strong>${p.nama}</strong>)
+                        <strong>${p.fullname}</strong>)
                     </div>
                 `;
             });
@@ -42,12 +42,12 @@
         // Fungsi Hantar Data ke Backend
         document.getElementById('hrForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const nama = document.getElementById('nama').value;
+            const fullname = document.getElementById('fullname').value;
 
-            await fetch('/api/Ahbab', {
+            await fetch('/api/ahbab', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nama})
+                body: JSON.stringify({ fullname})
             });
 
             document.getElementById('hrForm').reset();
