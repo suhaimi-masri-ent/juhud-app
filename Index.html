@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Juhud</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background: #f9f9f9; }
+        input, button { display: block; width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { background: #0070f3; color: white; border: none; font-size: 16px; cursor: pointer; }
+        .Ahbab-card { background: white; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h2>Sistem Pengurusan Ahbab (HR)</h2>
+
+    <!-- Borang Tambah Ahbab -->
+    <form id="hrForm">
+        <input type="text" id="nama" placeholder="Nama Ahbab" required>
+        <button type="submit">Tambah Ahbab</button>
+    </form>
+
+    <h3>Senarai Ahbab</h3>
+    <div id="senaraiAhbab">Memuatkan data...</div>
+
+    <script>
+        // Fungsi Ambil Data dari Backend
+        async function muatAhbab() {
+            const res = await fetch('/api/Ahbab');
+            const data = await res.json();
+            const div = document.getElementById('senaraiAhbab');
+            div.innerHTML = '';
+            data.forEach(p => {
+                div.innerHTML += `
+                    <div class="Ahbab-card">
+                        <strong>${p.nama}</strong>)
+                    </div>
+                `;
+            });
+        }
+
+        // Fungsi Hantar Data ke Backend
+        document.getElementById('hrForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nama = document.getElementById('nama').value;
+
+            await fetch('/api/Ahbab', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nama})
+            });
+
+            document.getElementById('hrForm').reset();
+            muatAhbab(); // Refresh senarai
+        });
+
+        // Muat data kali pertama bila web dibuka
+        muatAhbab();
+    </script>
+</body>
+</html>
